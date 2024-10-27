@@ -10,89 +10,99 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Login Page',
+      title: 'Web Layout',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 64, 98, 165)),
         useMaterial3: true,
       ),
-      home: const LoginPage(),
+      home: const WebLayoutPage(),
     );
   }
 }
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
-
-  @override
-  State<LoginPage> createState() => _LoginPageState();
-}
-
-class _LoginPageState extends State<LoginPage> {
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+class WebLayoutPage extends StatelessWidget {
+  const WebLayoutPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text("Login"),
-      ),
-      body: Center(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
+      body: Row(
+        children: [
+          // Sidebar
+          Container(
+            width: 250,
+            color: Theme.of(context).colorScheme.primary,
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                // Logo
-                Image.asset(
-                  'images/Undiknas.png', // disini gambarlogo undiknas
-                  height: 150,
-                ),
-                const SizedBox(height: 20),
-                TextField(
-                  controller: emailController,
-                  decoration: InputDecoration(
-                    prefixIcon: const Icon(Icons.email),
-                    labelText: 'Emaill',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 20),
-                TextField(
-                  controller: passwordController,
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    prefixIcon: const Icon(Icons.lock),
-                    labelText: 'Password',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 20),
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () {
-                    },
-                    style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    child: const Text('Login'),
-                  ),
-                ),
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
                 const SizedBox(height: 10),
+                Text(
+                  'Home',
+                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: Colors.white),
+                ),
+                const Divider(color: Colors.white54),
+                ListTile(
+                  title: const Text('Dashboard', style: TextStyle(color: Colors.white)),
+                  onTap: () {},
+                ),
+                ListTile(
+                  title: const Text('Settings', style: TextStyle(color: Colors.white)),
+                  onTap: () {},
+                ),
+                ListTile(
+                  title: const Text('Logout', style: TextStyle(color: Colors.white)),
+                  onTap: () {},
+                ),
               ],
             ),
           ),
-        ),
+          
+          // Main content area
+          Expanded(
+            child: Column(
+              children: [
+                // Header
+                Container(
+                  height: 70,
+                  color: Theme.of(context).colorScheme.inversePrimary,
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Header',
+                    style: Theme.of(context).textTheme.headlineSmall,
+                  ),
+                ),
+                
+                // Content Area
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: GridView.count(
+                      crossAxisCount: MediaQuery.of(context).size.width > 800 ? 3 : 1,
+                      crossAxisSpacing: 16,
+                      mainAxisSpacing: 16,
+                      children: List.generate(
+                        6,
+                        (index) => Container(
+                          decoration: BoxDecoration(
+                            color: Colors.blue.shade100,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Center(
+                            child: Text(
+                              'Content $index',
+                              style: Theme.of(context).textTheme.headlineSmall,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
